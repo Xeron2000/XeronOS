@@ -68,8 +68,8 @@ export const siteConfig = {
     socialLinks: [
         {
             label: 'Blog',
-            url: 'https://040304.xyz',
-            display: '040304.xyz',
+            url: 'https://blog.040304.xyz',
+            display: 'blog.040304.xyz',
         },
         {
             label: 'GitHub',
