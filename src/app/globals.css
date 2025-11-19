@@ -1,26 +1,56 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* 自定义颜色 */
+  --color-bg: #1e1e2e;
+  --color-fg: #cdd6f4;
+  --color-arch: #1793d1;
+  --color-green: #a6e3a1;
+  --color-yellow: #f9e2af;
+  --color-blue: #89b4fa;
+  --color-red: #f38ba8;
+  --color-mauve: #cba6f7;
+  --color-surface: #313244;
+  --color-surface-highlight: #45475a;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* 字体 */
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #11111b;
+  font-family: var(--font-mono);
+}
+
+/* 光标闪烁动画 */
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+.cursor-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* ASCII Art 样式 */
+.ascii-art {
+  line-height: 1.2;
+  white-space: pre;
+}
+
+/* 技术栈徽章悬停效果 */
+.tech-badge {
+  transition: all 0.2s ease;
+}
+
+.tech-badge:hover {
+  transform: translateY(-1px);
+  background-color: var(--color-surface-highlight);
 }

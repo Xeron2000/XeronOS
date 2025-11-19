@@ -1,65 +1,160 @@
-import Image from "next/image";
+'use client';
+
+import { useState } from 'react';
+import React from 'react';
+import { siteConfig } from '@/config/site';
+import { Typewriter } from '@/components/typewriter';
+import { Clock } from '@/components/clock';
+import { TechIcon, IconName } from '@/components/tech-icons';
 
 export default function Home() {
+  const [showOutput, setShowOutput] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen flex items-center justify-center p-4 text-fg selection:bg-surface">
+      {/* Terminal Window */}
+      <div className="w-full max-w-4xl bg-bg rounded-lg shadow-2xl border border-surface overflow-hidden">
+
+        {/* Window Header */}
+        <div className="bg-surface px-4 py-2 flex items-center justify-between">
+          <div className="flex space-x-2">
+            <div className="w-3 h-3 rounded-full bg-red"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow"></div>
+            <div className="w-3 h-3 rounded-full bg-green"></div>
+          </div>
+          <div className="text-xs text-gray-400">
+            {siteConfig.terminal.user}@{siteConfig.terminal.host}: ~
+          </div>
+          <div className="w-8"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Terminal Content */}
+        <div className="p-6 md:p-8 font-mono text-sm md:text-base">
+
+          {/* Command Input */}
+          <div className="mb-6">
+            <span className="text-green">{siteConfig.terminal.user}</span>
+            <span className="text-gray-400">@</span>
+            <span className="text-mauve">{siteConfig.terminal.host}</span>
+            {' '}
+            <span className="text-blue">~</span>
+            {' '}
+            <span className="text-gray-400">&gt;</span>
+            {' '}
+            <Typewriter text="neofetch" onComplete={() => setShowOutput(true)} />
+          </div>
+
+          {/* Neofetch Output Layout */}
+          <div
+            className={`flex flex-col md:flex-row gap-8 transition-opacity duration-500 ${showOutput ? 'opacity-100' : 'opacity-0'
+              }`}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+            {/* Left: ASCII Art (Arch Logo) */}
+            <div className="hidden md:block text-arch font-bold ascii-art select-none pt-1">
+              {siteConfig.asciiArt}
+            </div>
+
+            {/* Right: Info */}
+            <div className="flex-1 space-y-1">
+              <div className="grid grid-cols-[100px_1fr] gap-x-2">
+                {siteConfig.systemInfo.map((info, index) => {
+                  const colorClasses: Record<string, string> = {
+                    arch: 'text-arch',
+                    yellow: 'text-yellow',
+                    green: 'text-green',
+                    blue: 'text-blue',
+                    red: 'text-red',
+                    mauve: 'text-mauve',
+                  };
+
+                  return (
+                    <React.Fragment key={index}>
+                      <span className={`${colorClasses[info.color]} font-bold`}>
+                        {info.label}
+                      </span>
+                      <span className={info.color === 'yellow' ? 'text-yellow' : ''}>
+                        {info.value}
+                      </span>
+                    </React.Fragment>
+                  );
+                })}
+
+                {/* Tech Stack With Icons */}
+                <span className="text-arch font-bold mt-1 self-center">Tech Stack</span>
+                <div className="flex flex-wrap gap-2 mt-1">
+                  {siteConfig.techStack.map((tech) => {
+                    const borderColorClasses: Record<string, string> = {
+                      green: 'hover:border-green/30',
+                      blue: 'hover:border-blue/30',
+                      white: 'hover:border-white/30',
+                      yellow: 'hover:border-yellow/30',
+                      red: 'hover:border-red/30',
+                      mauve: 'hover:border-mauve/30',
+                    };
+
+                    return (
+                      <div
+                        key={tech.name}
+                        className={`tech-badge flex items-center gap-1.5 px-2 py-1 bg-surface rounded border border-transparent ${borderColorClasses[tech.color]} cursor-default`}
+                      >
+                        <TechIcon name={tech.icon as IconName} />
+                        <span className="text-xs text-gray-200">{tech.name}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <span className="text-arch font-bold mt-4">Timezone</span>
+                <div className="mt-4">
+                  <Clock />
+                </div>
+
+                <span className="text-arch font-bold mt-4">Motto</span>
+                <span className="mt-4 italic text-mauve">{siteConfig.motto}</span>
+              </div>
+
+              {/* Color Palette Block */}
+              <div className="flex gap-1 mt-6 pt-4">
+                <div className="w-4 h-4 bg-black rounded-sm"></div>
+                <div className="w-4 h-4 bg-red rounded-sm"></div>
+                <div className="w-4 h-4 bg-green rounded-sm"></div>
+                <div className="w-4 h-4 bg-yellow rounded-sm"></div>
+                <div className="w-4 h-4 bg-blue rounded-sm"></div>
+                <div className="w-4 h-4 bg-mauve rounded-sm"></div>
+                <div className="w-4 h-4 bg-arch rounded-sm"></div>
+                <div className="w-4 h-4 bg-fg rounded-sm"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Links Section */}
+          <div
+            className={`mt-8 pt-6 border-t border-surface transition-opacity duration-700 delay-200 ${showOutput ? 'opacity-100' : 'opacity-0'
+              }`}
           >
-            Documentation
-          </a>
+            <div className="mb-2 text-gray-500"># Contact &amp; Socials (Active on GitHub/Twitter)</div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {siteConfig.socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-3 hover:bg-surface p-2 rounded transition"
+                >
+                  <span className="text-yellow">➜</span>
+                  <span className="text-gray-400 w-16">{link.label}</span>
+                  <span className="group-hover:text-arch group-hover:underline decoration-arch">
+                    {link.display}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+
         </div>
-      </main>
+      </div>
     </div>
   );
 }
