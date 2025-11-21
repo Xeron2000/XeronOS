@@ -8,7 +8,7 @@ export const siteConfig = {
 
     // 页面元数据
     metadata: {
-        title: 'Xeron | Flow with life',
+        title: 'Xeron',
         description: 'Frontend Developer Portfolio - Flow with life',
     },
 

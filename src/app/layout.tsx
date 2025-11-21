@@ -12,6 +12,11 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: siteConfig.metadata.title,
   description: siteConfig.metadata.description,
+  icons: {
+    icon: undefined,
+    shortcut: undefined,
+    apple: undefined,
+  },
 };
 
 export default function RootLayout({
