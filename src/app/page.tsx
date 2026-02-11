@@ -133,7 +133,7 @@ export default function Home() {
             className={`mt-8 pt-6 border-t border-surface transition-opacity duration-700 delay-200 ${showOutput ? 'opacity-100' : 'opacity-0'
               }`}
           >
-            <div className="mb-2 text-gray-500"># Contact &amp; Socials (Active on GitHub/Twitter)</div>
+            <div className="mb-2 text-gray-500"># Contact &amp; Socials (Active on GitHub/X)</div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {siteConfig.socialLinks.map((link) => (
                 <a

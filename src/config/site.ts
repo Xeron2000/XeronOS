@@ -78,8 +78,8 @@ export const siteConfig = {
         },
         {
             label: 'Twitter',
-            url: 'https://twitter.com/xeronflow',
-            display: '@xeronflow',
+            url: 'https://x.com/xeron688',
+            display: '@xeron688',
         },
         {
             label: 'Email',
