@@ -24,34 +24,29 @@ export const siteConfig = {
     // 系统信息
     systemInfo: [
         { label: 'OS', value: 'Arch Linux x86_64', color: 'arch' },
-        { label: 'Host', value: 'Frontend Dev Workstation', color: 'arch' },
-        { label: 'Kernel', value: 'Linux 6.x-zen', color: 'arch' },
-        { label: 'WM', value: 'Hyprland', color: 'arch' },
-        { label: 'Shell', value: 'fish 3.7.0', color: 'arch' },
-        { label: 'Identity', value: 'Active Frontend Developer', color: 'yellow' },
+        { label: 'Kernel', value: 'Linux 6.18.9-zen1-2-zen', color: 'arch' },
+        { label: 'WM', value: 'Hyprland 0.53.3 (Wayland)', color: 'arch' },
+        { label: 'Shell', value: 'fish 4.4.0', color: 'arch' },
+        { label: 'Machine', value: 'Legion Y9000P IAH7H', color: 'arch' },
+        { label: 'CPU', value: 'Intel Core i7-12700H', color: 'arch' },
     ],
 
     // 技术栈
     techStack: [
-        {
-            name: 'Vue3',
-            icon: 'vue',
-            color: 'green',
-        },
         {
             name: 'React',
             icon: 'react',
             color: 'blue',
         },
         {
-            name: 'Next.js',
-            icon: 'nextjs',
-            color: 'white',
+            name: 'FastAPI',
+            icon: 'fastapi',
+            color: 'green',
         },
         {
-            name: 'TailwindCSS',
-            icon: 'tailwind',
-            color: 'blue',
+            name: 'Claude Code',
+            icon: 'claudeCode',
+            color: 'yellow',
         },
     ],
 
@@ -62,7 +57,7 @@ export const siteConfig = {
     },
 
     // 座右铭
-    motto: '"Flow with life"',
+    motto: '𝑓𝑙𝑜𝑤 𝑤𝑖𝑡ℎ 𝑙𝑖𝑓𝑒 · 𝑒𝑥𝑝𝑒𝑐𝑡 𝑛𝑜𝑡ℎ𝑖𝑛𝑔',
 
     // 社交链接
     socialLinks: [

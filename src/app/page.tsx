@@ -11,12 +11,12 @@ export default function Home() {
   const [showOutput, setShowOutput] = useState(false);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 text-fg selection:bg-surface">
+    <div className="min-h-[100dvh] flex items-center justify-center px-4 py-6 text-fg selection:bg-surface md:px-6 md:py-8">
       {/* Terminal Window */}
-      <div className="w-full max-w-4xl bg-bg rounded-lg shadow-2xl border border-surface overflow-hidden">
+      <div className="w-full max-w-5xl overflow-hidden rounded-2xl border border-surface/70 bg-bg shadow-[0_24px_80px_rgba(0,0,0,0.45)]">
 
         {/* Window Header */}
-        <div className="bg-surface px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-white/5 bg-surface/95 px-4 py-3">
           <div className="flex space-x-2">
             <div className="w-3 h-3 rounded-full bg-red"></div>
             <div className="w-3 h-3 rounded-full bg-yellow"></div>
@@ -29,10 +29,10 @@ export default function Home() {
         </div>
 
         {/* Terminal Content */}
-        <div className="p-6 md:p-8 font-mono text-sm md:text-base">
+        <div className="p-5 font-mono text-sm md:px-8 md:py-7 md:text-base">
 
           {/* Command Input */}
-          <div className="mb-6">
+          <div className="mb-6 md:mb-7">
             <span className="text-green">{siteConfig.terminal.user}</span>
             <span className="text-gray-400">@</span>
             <span className="text-mauve">{siteConfig.terminal.host}</span>
@@ -41,12 +41,12 @@ export default function Home() {
             {' '}
             <span className="text-gray-400">&gt;</span>
             {' '}
-            <Typewriter text="neofetch" onComplete={() => setShowOutput(true)} />
+            <Typewriter text="fastfetch" onComplete={() => setShowOutput(true)} />
           </div>
 
-          {/* Neofetch Output Layout */}
+          {/* Fastfetch Output Layout */}
           <div
-            className={`flex flex-col md:flex-row gap-8 transition-opacity duration-500 ${showOutput ? 'opacity-100' : 'opacity-0'
+            className={`flex flex-col md:flex-row md:items-start gap-6 md:gap-8 transition-opacity duration-500 ${showOutput ? 'opacity-100' : 'opacity-0'
               }`}
           >
 
@@ -56,8 +56,8 @@ export default function Home() {
             </div>
 
             {/* Right: Info */}
-            <div className="flex-1 space-y-1">
-              <div className="grid grid-cols-[100px_1fr] gap-x-2">
+            <div className="flex-1">
+              <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-3 gap-y-2.5 md:gap-x-5 md:gap-y-3">
                 {siteConfig.systemInfo.map((info, index) => {
                   const colorClasses: Record<string, string> = {
                     arch: 'text-arch',
@@ -70,10 +70,10 @@ export default function Home() {
 
                   return (
                     <React.Fragment key={index}>
-                      <span className={`${colorClasses[info.color]} font-bold`}>
+                      <span className={`${colorClasses[info.color]} font-bold tracking-tight`}>
                         {info.label}
                       </span>
-                      <span className={info.color === 'yellow' ? 'text-yellow' : ''}>
+                      <span className="leading-[1.5] text-fg">
                         {info.value}
                       </span>
                     </React.Fragment>
@@ -81,22 +81,22 @@ export default function Home() {
                 })}
 
                 {/* Tech Stack With Icons */}
-                <span className="text-arch font-bold mt-1 self-center">Tech Stack</span>
-                <div className="flex flex-wrap gap-2 mt-1">
+                <span className="self-start text-arch font-bold tracking-tight">Tech Stack</span>
+                <div className="flex flex-wrap gap-2">
                   {siteConfig.techStack.map((tech) => {
                     const borderColorClasses: Record<string, string> = {
-                      green: 'hover:border-green/30',
-                      blue: 'hover:border-blue/30',
-                      white: 'hover:border-white/30',
-                      yellow: 'hover:border-yellow/30',
-                      red: 'hover:border-red/30',
-                      mauve: 'hover:border-mauve/30',
+                      green: 'hover:border-green/20 hover:bg-surfaceHighlight/60',
+                      blue: 'hover:border-blue/20 hover:bg-surfaceHighlight/60',
+                      white: 'hover:border-white/15 hover:bg-surfaceHighlight/60',
+                      yellow: 'hover:border-yellow/20 hover:bg-surfaceHighlight/60',
+                      red: 'hover:border-red/20 hover:bg-surfaceHighlight/60',
+                      mauve: 'hover:border-mauve/20 hover:bg-surfaceHighlight/60',
                     };
 
                     return (
                       <div
                         key={tech.name}
-                        className={`tech-badge flex items-center gap-1.5 px-2 py-1 bg-surface rounded border border-transparent ${borderColorClasses[tech.color]} cursor-default`}
+                        className={`tech-badge flex items-center gap-1.5 rounded-md border border-white/5 bg-surface px-2.5 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] ${borderColorClasses[tech.color]} cursor-default`}
                       >
                         <TechIcon name={tech.icon as IconName} />
                         <span className="text-xs text-gray-200">{tech.name}</span>
@@ -105,43 +105,43 @@ export default function Home() {
                   })}
                 </div>
 
-                <span className="text-arch font-bold mt-4">Timezone</span>
-                <div className="mt-4">
+                <span className="text-arch font-bold tracking-tight">Timezone</span>
+                <div className="flex items-baseline">
                   <Clock />
                 </div>
 
-                <span className="text-arch font-bold mt-4">Motto</span>
-                <span className="mt-4 italic text-mauve">{siteConfig.motto}</span>
+                <span className="text-arch font-bold tracking-tight">Motto</span>
+                <span className="italic leading-relaxed text-mauve">{siteConfig.motto}</span>
               </div>
 
               {/* Color Palette Block */}
-              <div className="flex gap-1 mt-6 pt-4">
-                <div className="w-4 h-4 bg-black rounded-sm"></div>
-                <div className="w-4 h-4 bg-red rounded-sm"></div>
-                <div className="w-4 h-4 bg-green rounded-sm"></div>
-                <div className="w-4 h-4 bg-yellow rounded-sm"></div>
-                <div className="w-4 h-4 bg-blue rounded-sm"></div>
-                <div className="w-4 h-4 bg-mauve rounded-sm"></div>
-                <div className="w-4 h-4 bg-arch rounded-sm"></div>
-                <div className="w-4 h-4 bg-fg rounded-sm"></div>
+              <div className="mt-6 inline-flex w-fit gap-1.5 rounded-lg border border-white/5 p-2">
+                <div className="h-4 w-4 rounded-sm bg-black"></div>
+                <div className="h-4 w-4 rounded-sm bg-red"></div>
+                <div className="h-4 w-4 rounded-sm bg-green"></div>
+                <div className="h-4 w-4 rounded-sm bg-yellow"></div>
+                <div className="h-4 w-4 rounded-sm bg-blue"></div>
+                <div className="h-4 w-4 rounded-sm bg-mauve"></div>
+                <div className="h-4 w-4 rounded-sm bg-arch"></div>
+                <div className="h-4 w-4 rounded-sm bg-fg"></div>
               </div>
             </div>
           </div>
 
           {/* Links Section */}
           <div
-            className={`mt-8 pt-6 border-t border-surface transition-opacity duration-700 delay-200 ${showOutput ? 'opacity-100' : 'opacity-0'
+            className={`mt-8 border-t border-white/5 pt-6 transition-opacity duration-700 delay-200 ${showOutput ? 'opacity-100' : 'opacity-0'
               }`}
           >
-            <div className="mb-2 text-gray-500"># Contact &amp; Socials (Active on GitHub/X)</div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="mb-3 text-sm tracking-tight text-gray-500"># Contact &amp; Socials (Active on GitHub/X)</div>
+            <div className="grid grid-cols-1 gap-y-2 md:grid-cols-2 md:gap-x-8 md:gap-y-3">
               {siteConfig.socialLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 hover:bg-surface p-2 rounded transition"
+                  className="group flex items-center gap-3 rounded-lg border border-transparent px-2.5 py-2 transition-colors duration-200 hover:border-surfaceHighlight hover:bg-surface"
                 >
                   <span className="text-yellow">➜</span>
                   <span className="text-gray-400 w-16">{link.label}</span>
