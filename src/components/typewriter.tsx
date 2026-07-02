@@ -1,62 +1,65 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface TypewriterProps {
-    text: string;
-    speed?: number;
-    onComplete?: () => void;
+  text: string;
+  speed?: number;
+  onComplete?: () => void;
 }
 
 export function Typewriter({ text, speed = 150, onComplete }: TypewriterProps) {
-    const [displayText, setDisplayText] = useState(text);
-    const [showCursor, setShowCursor] = useState(false);
-    const [mounted, setMounted] = useState(false);
-    const hasPlayedRef = useRef(false);
+  const [displayText, setDisplayText] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+  const hasPlayedRef = useRef(false);
+  const onCompleteRef = useRef(onComplete);
 
-    useEffect(() => {
-        setMounted(true);
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+  }, [onComplete]);
 
-        // 如果已经播放过，就不再播放
-        if (hasPlayedRef.current) {
-            return;
-        }
-
-        hasPlayedRef.current = true;
-        setDisplayText('');
-        setShowCursor(true);
-
-        let i = 0;
-        const timer = setInterval(() => {
-            if (i < text.length) {
-                setDisplayText(text.slice(0, i + 1));
-                i++;
-            } else {
-                clearInterval(timer);
-                setShowCursor(false);
-                onComplete?.();
-            }
-        }, speed);
-
-        return () => clearInterval(timer);
-    }, [text, speed, onComplete]);
-
-    if (!mounted) {
-        return (
-            <span>
-                <span className="text-fg">{text}</span>
-                <span className="inline-block align-middle ml-1 w-2 h-5 bg-fg opacity-0" />
-            </span>
-        );
+  useEffect(() => {
+    if (hasPlayedRef.current) {
+      return;
     }
 
-    return (
-        <span>
-            <span className="text-fg">{displayText}</span>
-            <span
-                className={`inline-block align-middle ml-1 w-2 h-5 bg-fg ${showCursor ? 'cursor-blink' : 'opacity-0'
-                    }`}
-            />
-        </span>
-    );
+    hasPlayedRef.current = true;
+
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const startFrame = requestAnimationFrame(() => {
+      setDisplayText('');
+      setShowCursor(true);
+
+      let index = 0;
+      let built = '';
+      timer = setInterval(() => {
+        if (index < text.length) {
+          built += text[index];
+          index += 1;
+          setDisplayText(built);
+          return;
+        }
+
+        clearInterval(timer);
+        setShowCursor(false);
+        onCompleteRef.current?.();
+      }, speed);
+    });
+
+    return () => {
+      cancelAnimationFrame(startFrame);
+      if (timer) clearInterval(timer);
+    };
+  }, [text, speed]);
+
+  return (
+    <span>
+      <span className="text-fg" suppressHydrationWarning>{displayText}</span>
+      <span
+        className={`inline-block align-middle ml-1 w-2 h-5 bg-fg ${
+          showCursor ? 'cursor-blink' : 'opacity-0'
+        }`}
+      />
+    </span>
+  );
 }

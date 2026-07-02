@@ -113,18 +113,23 @@ export function ArchLogo({ targetRef, active = true }: ArchLogoProps) {
     const shell = shellRef.current;
     if (!target || !logo || !shell) return;
 
+    let frame = 0;
+
     const syncSize = () => {
-      const targetHeight = target.offsetHeight;
-      if (targetHeight <= 0) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const targetHeight = target.offsetHeight;
+        if (targetHeight <= 0) return;
 
-      fitLogoHeight(logo, targetHeight);
+        fitLogoHeight(logo, targetHeight);
 
-      logo.style.transform = `scaleX(${HORIZONTAL_SCALE})`;
-      logo.style.transformOrigin = 'top left';
-      const { width } = logo.getBoundingClientRect();
-      shell.style.height = `${targetHeight}px`;
-      shell.style.width = `${width}px`;
-      shell.style.overflow = 'hidden';
+        logo.style.transform = `scaleX(${HORIZONTAL_SCALE})`;
+        logo.style.transformOrigin = 'top left';
+        const { width } = logo.getBoundingClientRect();
+        shell.style.height = `${targetHeight}px`;
+        shell.style.width = `${width}px`;
+        shell.style.overflow = 'hidden';
+      });
     };
 
     syncSize();
@@ -132,15 +137,14 @@ export function ArchLogo({ targetRef, active = true }: ArchLogoProps) {
     const observer = new ResizeObserver(syncSize);
     observer.observe(target);
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, [active, targetRef]);
 
   return (
-    <div
-      ref={shellRef}
-      className="relative hidden shrink-0 self-stretch sm:flex sm:items-start sm:justify-start"
-    >
-
+    <div ref={shellRef} className="arch-logo-shell">
       <pre
         ref={logoRef}
         className="fastfetch-logo relative z-10 m-0 select-none font-bold leading-[1.05]"
