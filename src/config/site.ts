@@ -1,65 +1,59 @@
 export const siteConfig = {
-    // 终端信息
+    // Terminal info
     terminal: {
         user: 'xeron',
         host: 'archlinux',
         distro: 'Arch Linux',
     },
 
-    // 页面元数据
+    // Page metadata
     metadata: {
         title: 'Xeron',
         description: 'Frontend Developer Portfolio - Flow with life',
     },
 
-    // ASCII Art (Arch Logo)
-    asciiArt: `       /\\
-      /  \\
-     /    \\
-    /      \\
-   /   ,,   \\
-  /   |  |   \\
- /_-''    ''-_\\`,
-
-    // 系统信息
+    // System info — synced from `fastfetch`
     systemInfo: [
         { label: 'OS', value: 'Arch Linux x86_64', color: 'arch' },
-        { label: 'Kernel', value: 'Linux 6.18.9-zen1-2-zen', color: 'arch' },
-        { label: 'WM', value: 'Hyprland 0.53.3 (Wayland)', color: 'arch' },
-        { label: 'Shell', value: 'fish 4.4.0', color: 'arch' },
-        { label: 'Machine', value: 'Legion Y9000P IAH7H', color: 'arch' },
-        { label: 'CPU', value: 'Intel Core i7-12700H', color: 'arch' },
+        { label: 'Kernel', value: 'Linux 7.0.14-zen1-1-zen', color: 'arch' },
+        { label: 'WM', value: 'niri 26.04 (Wayland)', color: 'arch' },
+        { label: 'Shell', value: 'fish 4.7.1', color: 'arch' },
+        { label: 'Machine', value: '82RF (Legion Y9000P IAH7H)', color: 'arch' },
+        { label: 'CPU', value: '12th Gen i7-12700H (12+8) @ 4.70 GHz', color: 'arch' },
     ],
 
-    // 技术栈
-    techStack: [
+    // Dev tools
+    devTools: [
         {
-            name: 'React',
-            icon: 'react',
-            color: 'blue',
+            name: 'Pi Coding Agent',
+            icon: 'pi',
+            color: 'mauve',
+            url: 'https://pi.dev/',
         },
         {
-            name: 'FastAPI',
-            icon: 'fastapi',
+            name: 'OpenCode',
+            icon: 'opencode',
             color: 'green',
+            url: 'https://opencode.ai/',
         },
         {
-            name: 'Claude Code',
-            icon: 'claudeCode',
-            color: 'yellow',
+            name: 'Cursor CLI',
+            icon: 'cursorCli',
+            color: 'blue',
+            url: 'https://cursor.com/cli',
         },
     ],
 
-    // 时区
+    // Timezone
     timezone: {
         label: 'Asia/Shanghai',
         display: '(Asia/Shanghai)',
     },
 
-    // 座右铭
+    // Motto
     motto: '𝑓𝑙𝑜𝑤 𝑤𝑖𝑡ℎ 𝑙𝑖𝑓𝑒 · 𝑒𝑥𝑝𝑒𝑐𝑡 𝑛𝑜𝑡ℎ𝑖𝑛𝑔',
 
-    // 社交链接
+    // Social links
     socialLinks: [
         {
             label: 'Blog',
@@ -83,7 +77,7 @@ export const siteConfig = {
         },
     ],
 
-    // 主题颜色
+    // Theme colors
     colors: {
         bg: '#1e1e2e',
         fg: '#cdd6f4',

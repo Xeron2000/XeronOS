@@ -1,14 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import dynamic from 'next/dynamic';
+import { useRef, useState } from 'react';
 import React from 'react';
 import { siteConfig } from '@/config/site';
 import { Typewriter } from '@/components/typewriter';
 import { Clock } from '@/components/clock';
-import { TechIcon, IconName } from '@/components/tech-icons';
+
+const ToolBadges = dynamic(
+  () => import('@/components/tool-badges').then((mod) => ({ default: mod.ToolBadges })),
+  { ssr: false },
+);
+
+const ArchLogo = dynamic(
+  () => import('@/components/arch-logo').then((mod) => ({ default: mod.ArchLogo })),
+  { ssr: false },
+);
+
+const INFO_COLOR_CLASSES: Record<string, string> = {
+  arch: 'text-arch',
+  yellow: 'text-yellow',
+  green: 'text-green',
+  blue: 'text-blue',
+  red: 'text-red',
+  mauve: 'text-mauve',
+};
 
 export default function Home() {
   const [showOutput, setShowOutput] = useState(false);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   return (
     <div className="min-h-[100dvh] flex items-center justify-center px-4 py-6 text-fg selection:bg-surface md:px-6 md:py-8">
@@ -46,64 +66,24 @@ export default function Home() {
 
           {/* Fastfetch Output Layout */}
           <div
-            className={`flex flex-col md:flex-row md:items-start gap-6 md:gap-8 transition-opacity duration-500 ${showOutput ? 'opacity-100' : 'opacity-0'
+            className={`flex flex-col md:flex-row md:items-stretch gap-6 md:gap-8 transition-opacity duration-500 ${showOutput ? 'opacity-100' : 'opacity-0'
               }`}
           >
-
-            {/* Left: ASCII Art (Arch Logo) */}
-            <div className="hidden md:block text-arch font-bold ascii-art select-none pt-1">
-              {siteConfig.asciiArt}
-            </div>
+            <ArchLogo targetRef={contentRef} active={showOutput} />
 
             {/* Right: Info */}
-            <div className="flex-1">
+            <div ref={contentRef} className="min-w-0 flex-1">
               <div className="grid grid-cols-[104px_minmax(0,1fr)] gap-x-3 gap-y-2.5 md:gap-x-5 md:gap-y-3">
-                {siteConfig.systemInfo.map((info, index) => {
-                  const colorClasses: Record<string, string> = {
-                    arch: 'text-arch',
-                    yellow: 'text-yellow',
-                    green: 'text-green',
-                    blue: 'text-blue',
-                    red: 'text-red',
-                    mauve: 'text-mauve',
-                  };
+                {siteConfig.systemInfo.map((info, index) => (
+                  <React.Fragment key={info.label}>
+                    <span className={`${INFO_COLOR_CLASSES[info.color]} font-bold tracking-tight`}>
+                      {info.label}
+                    </span>
+                    <span className="leading-[1.5] text-fg">{info.value}</span>
+                  </React.Fragment>
+                ))}
 
-                  return (
-                    <React.Fragment key={index}>
-                      <span className={`${colorClasses[info.color]} font-bold tracking-tight`}>
-                        {info.label}
-                      </span>
-                      <span className="leading-[1.5] text-fg">
-                        {info.value}
-                      </span>
-                    </React.Fragment>
-                  );
-                })}
-
-                {/* Tech Stack With Icons */}
-                <span className="self-start text-arch font-bold tracking-tight">Tech Stack</span>
-                <div className="flex flex-wrap gap-2">
-                  {siteConfig.techStack.map((tech) => {
-                    const borderColorClasses: Record<string, string> = {
-                      green: 'hover:border-green/20 hover:bg-surfaceHighlight/60',
-                      blue: 'hover:border-blue/20 hover:bg-surfaceHighlight/60',
-                      white: 'hover:border-white/15 hover:bg-surfaceHighlight/60',
-                      yellow: 'hover:border-yellow/20 hover:bg-surfaceHighlight/60',
-                      red: 'hover:border-red/20 hover:bg-surfaceHighlight/60',
-                      mauve: 'hover:border-mauve/20 hover:bg-surfaceHighlight/60',
-                    };
-
-                    return (
-                      <div
-                        key={tech.name}
-                        className={`tech-badge flex items-center gap-1.5 rounded-md border border-white/5 bg-surface px-2.5 py-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.02)] ${borderColorClasses[tech.color]} cursor-default`}
-                      >
-                        <TechIcon name={tech.icon as IconName} />
-                        <span className="text-xs text-gray-200">{tech.name}</span>
-                      </div>
-                    );
-                  })}
-                </div>
+                <ToolBadges visible={showOutput} />
 
                 <span className="text-arch font-bold tracking-tight">Timezone</span>
                 <div className="flex items-baseline">

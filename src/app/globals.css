@@ -39,18 +39,21 @@ body {
   animation: blink 1s step-end infinite;
 }
 
-/* ASCII Art 样式 */
-.ascii-art {
-  line-height: 1.2;
-  white-space: pre;
+/* fastfetch Arch logo */
+.fastfetch-logo {
+  font-variant-ligatures: none;
+  font-feature-settings: normal;
+  letter-spacing: 0;
+}
+.tool-badge {
+  transition:
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* 技术栈徽章悬停效果 */
-.tech-badge {
-  transition: all 0.2s ease;
-}
-
-.tech-badge:hover {
-  transform: translateY(-1px);
-  background-color: var(--color-surface-highlight);
+@media (prefers-reduced-motion: reduce) {
+  .tool-badge:hover {
+    transform: translateY(-1px);
+  }
 }
