@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "buildCommand": "echo 'static site — no build step'",
+  "outputDirectory": ".",
+  "installCommand": "echo 'no dependencies to install'",
+  "framework": null
+}
