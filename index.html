@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xeron</title>
+<meta name="description" content="Frontend Developer Portfolio - Flow with life">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1e1e2e;--fg:#cdd6f4;--arch:#1793d1;--green:#a6e3a1;--yellow:#f9e2af;
+    --blue:#89b4fa;--red:#f38ba8;--mauve:#cba6f7;--surface:#313244;--surface-hl:#45475a;
+    --page:#11111b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--page);color:var(--fg);font-family:"JetBrains Mono",ui-monospace,monospace;-webkit-font-smoothing:antialiased;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px 16px}
+  a{color:inherit;text-decoration:none}
+  .card{width:100%;max-width:960px;overflow:hidden;border-radius:16px;border:1px solid rgba(49,50,68,.7);background:var(--bg);box-shadow:0 24px 80px rgba(0,0,0,.45)}
+  .bar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(49,50,68,.95);padding:12px 16px}
+  .dots{display:flex;gap:8px}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dot.r{background:var(--red)} .dot.y{background:var(--yellow)} .dot.g{background:var(--green)}
+  .bar-title{font-size:12px;color:#9ca3af}
+  .term{padding:20px 20px 28px;font-size:14px;line-height:1.6}
+  @media(min-width:768px){.term{padding:28px 32px;font-size:15px}}
+  .prompt{margin-bottom:24px}
+  .c-arch{color:var(--arch)} .c-green{color:var(--green)} .c-yellow{color:var(--yellow)}
+  .c-blue{color:var(--blue)} .c-red{color:var(--red)} .c-mauve{color:var(--mauve)}
+  .c-muted{color:#9ca3af} .c-fg{color:var(--fg)}
+  #cursor{display:inline-block;vertical-align:middle;margin-left:4px;width:8px;height:18px;background:var(--fg);animation:blink 1s step-end infinite}
+  #cursor.done{opacity:0;animation:none}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+  .output{opacity:0;transition:opacity .5s ease}
+  .output.show{opacity:1}
+  .row{display:flex;flex-direction:column;gap:24px}
+  @media(min-width:768px){.row{flex-direction:row;align-items:stretch;gap:32px}}
+  /* arch logo */
+  .arch-shell{display:none;flex-shrink:0;overflow:hidden}
+  @media(min-width:640px){.arch-shell{display:block}}
+  .logo{margin:0;font-size:10px;line-height:1.05;font-weight:700;white-space:pre;transform:scaleX(.86);transform-origin:top left;user-select:none}
+  .logo .p{color:var(--arch)} .logo .s{color:var(--fg)}
+  .grid{display:grid;grid-template-columns:minmax(72px,34%) minmax(0,1fr);gap:10px 12px;flex:1;min-width:0}
+  @media(min-width:640px){.grid{grid-template-columns:104px minmax(0,1fr);gap:12px 20px}}
+  .label{font-weight:700;letter-spacing:-.02em}
+  .value{word-break:break-word}
+  .badges{display:flex;flex-wrap:wrap;gap:8px}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.08);background:rgba(49,50,68,.9);font-size:12px;color:#e5e7eb;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);transition:transform .2s,border-color .2s,box-shadow .2s;opacity:0;transform:translateY(12px) scale(.92)}
+  .output.show .badge{animation:badgeIn .42s cubic-bezier(.22,1,.36,1) forwards}
+  .output.show .badge:nth-child(1){animation-delay:.08s}
+  .output.show .badge:nth-child(2){animation-delay:.15s}
+  .output.show .badge:nth-child(3){animation-delay:.22s}
+  @keyframes badgeIn{to{opacity:1;transform:none}}
+  .badge:hover{transform:translateY(-2px) scale(1.03);border-color:rgba(255,255,255,.15)}
+  .badge svg{width:16px;height:16px;flex-shrink:0}
+  .palette{margin-top:24px;display:inline-flex;flex-wrap:wrap;gap:6px;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,.05)}
+  .swatch{width:16px;height:16px;border-radius:3px}
+  .contacts{margin-top:32px;border-top:1px solid rgba(255,255,255,.05);padding-top:24px}
+  .contacts h3{font-size:12px;color:#6b7280;margin-bottom:12px;letter-spacing:-.02em}
+  .social{display:grid;gap:8px}
+  @media(min-width:768px){.social{grid-template-columns:1fr 1fr;gap:12px 32px}}
+  .social a{display:flex;align-items:center;gap:12px;padding:8px 10px;border-radius:8px;border:1px solid transparent;transition:.2s}
+  .social a:hover{border-color:rgba(69,71,90,.7);background:var(--surface)}
+  .social .arrow{color:var(--yellow)} .social .lab{width:64px;flex-shrink:0;color:#9ca3af;font-size:13px}
+  .social .disp{word-break:break-all;font-size:13px}
+  .social a:hover .disp{color:var(--arch);text-decoration:underline;text-decoration-color:var(--arch)}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="bar">
+    <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+    <div class="bar-title">xeron@archlinux: ~</div>
+    <div style="width:32px"></div>
+  </div>
+  <div class="term">
+    <div class="prompt">
+      <span class="c-green">xeron</span><span class="c-muted">@</span><span class="c-mauve">archlinux</span>
+      <span class="c-blue">~</span> <span class="c-muted">></span>
+      <span class="c-fg" id="typed"></span><span id="cursor"></span>
+    </div>
+
+    <div id="output" class="output">
+      <div class="row">
+        <div class="arch-shell"><pre class="logo" aria-label="Arch Linux"><span class="p">                  -`</span>
+<span class="p">                 .o+`</span>
+<span class="p">                `ooo/</span>
+<span class="p">               `+oooo:</span>
+<span class="p">              `+oooooo:</span>
+<span class="p">              -+oooooo+:</span>
+<span class="p">            `/:-:++oooo+:</span>
+<span class="p">           `/++++/+++++++:</span>
+<span class="p">          `/++++++++++++++:</span>
+<span class="p">         `/+++o</span><span class="s">oooooooo</span><span class="p">oooo/`</span>
+<span class="p">        ./</span><span class="s">ooosssso++osssssso</span><span class="p">+`</span>
+<span class="s">       .oossssso-````/ossssss+`</span>
+<span class="p">      -osssssso.      :ssssssso.</span>
+<span class="p">     :osssssss/        osssso+++.</span>
+<span class="p">    /ossssssss/        +ssssooo/-</span>
+<span class="p">  `/ossssso+/:-        -:/+osssso+-</span>
+<span class="p"> `+sso+:-`                 `.-/+oso:</span>
+<span class="p">`++:.                           `-/+/</span>
+<span class="p">.                                 `/</span></pre></div>
+
+        <div class="grid" id="info">
+          <span class="c-arch label">OS</span><span class="value">Arch Linux x86_64</span>
+          <span class="c-arch label">Kernel</span><span class="value">Linux 7.0.14-zen1-1-zen</span>
+          <span class="c-arch label">WM</span><span class="value">niri 26.04 (Wayland)</span>
+          <span class="c-arch label">Shell</span><span class="value">fish 4.7.1</span>
+          <span class="c-arch label">Machine</span><span class="value">82RF (Legion Y9000P IAH7H)</span>
+          <span class="c-arch label">CPU</span><span class="value">12th Gen i7-12700H (12+8) @ 4.70 GHz</span>
+
+          <span class="c-arch label" style="align-self:start">Tools</span>
+          <div class="badges">
+            <a class="badge" href="https://pi.dev/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 800 800" fill="none"><path fill="#cdd6f4" fill-rule="evenodd" d="M165.29 165.29H517.36V400H400V517.36H282.65V634.72H165.29V165.29ZM282.65 282.65V400H400V282.65H282.65Z"/><path fill="#cdd6f4" d="M517.36 400H634.72V634.72H517.36V400Z"/></svg>
+              Pi Coding Agent</a>
+            <a class="badge" href="https://opencode.ai/" target="_blank" rel="noopener">
+              <svg viewBox="0 0 512 512" fill="none"><path d="M320 224V352H192V224H320Z" fill="#5A5858"/><path fill-rule="evenodd" clip-rule="evenodd" d="M384 416H128V96H384V416ZM320 160H192V352H320V160Z" fill="#cdd6f4"/></svg>
+              OpenCode</a>
+            <a class="badge" href="https://cursor.com/cli" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none"><path fill="#edecec" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>
+              Cursor CLI</a>
+          </div>
+
+          <span class="c-arch label">Timezone</span><span class="value"><span id="clock">00:00:00</span> <span class="c-muted" style="font-size:11px;margin-left:6px">(Asia/Shanghai)</span></span>
+          <span class="c-arch label">Motto</span><span class="value" style="font-style:italic;color:var(--mauve)">𝑓𝑙𝑜𝑤 𝑤𝑖𝑡ℎ 𝑙𝑖𝑓𝑒 · 𝑒𝑥𝑝𝑒𝑐𝑡 𝑛𝑜𝑡ℎ𝑖𝑛𝑔</span>
+        </div>
+      </div>
+
+      <div class="palette">
+        <div class="swatch" style="background:#000"></div>
+        <div class="swatch" style="background:#f38ba8"></div>
+        <div class="swatch" style="background:#a6e3a1"></div>
+        <div class="swatch" style="background:#f9e2af"></div>
+        <div class="swatch" style="background:#89b4fa"></div>
+        <div class="swatch" style="background:#cba6f7"></div>
+        <div class="swatch" style="background:#1793d1"></div>
+        <div class="swatch" style="background:#cdd6f4"></div>
+      </div>
+
+      <div class="contacts">
+        <h3># Contact &amp; Socials (Active on GitHub/X)</h3>
+        <div class="social">
+          <a href="https://blog.040304.xyz" target="_blank" rel="noopener"><span class="arrow">➜</span><span class="lab">Blog</span><span class="disp">blog.040304.xyz</span></a>
+          <a href="https://github.com/Xeron2000" target="_blank" rel="noopener"><span class="arrow">➜</span><span class="lab">GitHub</span><span class="disp">Xeron2000</span></a>
+          <a href="https://x.com/xeron688" target="_blank" rel="noopener"><span class="arrow">➜</span><span class="lab">Twitter</span><span class="disp">@xeron688</span></a>
+          <a href="mailto:xeron2333@gmail.com"><span class="arrow">➜</span><span class="lab">Email</span><span class="disp">xeron2333@gmail.com</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ponytail: static logo, no ResizeObserver fit logic. Add fitLogoHeight if pixel-perfect height sync needed.
+const text="fastfetch", el=document.getElementById("typed"), cursor=document.getElementById("cursor"), out=document.getElementById("output");
+let i=0;
+const timer=setInterval(()=>{
+  if(i<text.length){ el.textContent+=text[i++]; }
+  else { clearInterval(timer); cursor.classList.add("done"); out.classList.add("show"); }
+},110);
+
+// clock Asia/Shanghai
+const fmt=new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Shanghai",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});
+function tick(){
+  try{ document.getElementById("clock").textContent=fmt.format(new Date()); }catch{}
+}
+tick(); setInterval(tick,1000);
+</script>
+</body>
+</html>

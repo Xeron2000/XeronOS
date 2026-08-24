@@ -1,48 +1,11 @@
-# Personal Homepage
+# XeronOS
 
-A terminal-style personal homepage built with Next.js and Tailwind CSS. All content is configurable via a single config file.
+Terminal-style personal homepage — single-file vanilla HTML/CSS/JS.
 
-## Quick Start
+No framework, no build step. Open `index.html` directly.
 
-```bash
-# Install dependencies
-pnpm install
+- Edit content in `index.html` (search `siteConfig` comments)
+- Colors in `:root` CSS variables (Catppuccin Mocha)
+- Previously Next.js + React, rewritten to static for zero-cost hosting
 
-# Start dev server
-pnpm dev
-
-# Build for production
-pnpm build
-```
-
-## Configuration
-
-Edit `src/config/site.ts` to customize:
-
-- Terminal info (username, hostname, distro)
-- Page metadata (title, description)
-- ASCII art
-- System information
-- Tech stack
-- Social links
-- Theme colors
-
-## Tech Stack
-
-- Next.js 15 (App Router)
-- Tailwind CSS
-- TypeScript
-- pnpm
-
-## Features
-
-- Fully configurable content
-- Typewriter effect
-- Live clock
-- Responsive design
-- Terminal-style UI
-- Dark theme
-
-## License
-
-MIT
+Deploy: drag `index.html` to Vercel/Cloudflare Pages/Netlify, or `Xeron2000.github.io`.
